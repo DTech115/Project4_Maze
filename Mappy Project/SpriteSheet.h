@@ -22,6 +22,10 @@ public:
 	int getHeight() {return frameHeight;}
 	bool CollisionEndBlock();
 	bool CollisionDieBlock();
+
+	//for levelchanges
+	void resetPlayer() { x = 128, y = 20; }
+
 private:
 	float x;
 	float y;

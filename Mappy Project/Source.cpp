@@ -62,15 +62,17 @@ int main(void)
 
 	event_queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / 60);
+	countdown = al_create_timer(1.0); //created countdown timer
 	
 
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
-
+	al_register_event_source(event_queue, al_get_timer_event_source(countdown));
+	al_start_timer(countdown);
 	al_start_timer(timer);
 
-	ALLEGRO_FONT* font = al_load_font("minecraft_font.ttf", 64, 0);
+	ALLEGRO_FONT* font = al_load_font("DFPPOPCorn-W12.ttf", 64, 0);
 
 	//draw the background tiles
 	MapDrawBG(xOff,yOff, 0, 0, WIDTH-1, HEIGHT-1);
@@ -88,34 +90,45 @@ int main(void)
 
 			if (ev.type == ALLEGRO_EVENT_TIMER)
 			{
-				if (levelOver) {
-					countdown = 60;
-					levelOver = false;
-					level++;
-					sprintf(name, "level%i.FMP", level);
-					MapLoad(name, 1);
-					MapInitAnims();
+				if (ev.timer.source == countdown) {
+					if (countdownTime > 0) {
+						countdownTime -= 1;
+					}
+					else {
+						gameOver = true;
+					}
 				}
+				else {
+					if (levelOver) {
+						countdownTime = 60;
+						levelOver = false;
+						level++;
+						sprintf(name, "level%i.FMP", level);
+						MapLoad(name, 1);
+						MapInitAnims();
+						if (level < 4)
+							player.resetPlayer();
+					}
 
-				render = true;
-				if (keys[UP])
-					player.UpdateSprites(WIDTH, HEIGHT, 3);
-				else if (keys[DOWN])
-					player.UpdateSprites(WIDTH, HEIGHT, 4);
-				else if (keys[LEFT])
-					player.UpdateSprites(WIDTH, HEIGHT, 0);
-				else if (keys[RIGHT])
-					player.UpdateSprites(WIDTH, HEIGHT, 1);
-				else
-					player.UpdateSprites(WIDTH, HEIGHT, 2);
-				if (player.CollisionEndBlock()) {
-					levelOver = true;
+					render = true;
+					if (keys[UP])
+						player.UpdateSprites(WIDTH, HEIGHT, 3);
+					else if (keys[DOWN])
+						player.UpdateSprites(WIDTH, HEIGHT, 4);
+					else if (keys[LEFT])
+						player.UpdateSprites(WIDTH, HEIGHT, 0);
+					else if (keys[RIGHT])
+						player.UpdateSprites(WIDTH, HEIGHT, 1);
+					else
+						player.UpdateSprites(WIDTH, HEIGHT, 2);
+					if (player.CollisionEndBlock()) {
+						levelOver = true;
+					}
+					if (player.CollisionDieBlock())
+						gameOver = true;
+
+					render = true;
 				}
-				if (player.CollisionDieBlock())
-					gameOver = true;
-
-				render = true;
-
 			}
 			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{
@@ -195,6 +208,7 @@ int main(void)
 				//draw foreground tiles
 				MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 
+				//if gameover via time or caught, draw ded sprite & end game
 				if (gameOver) {
 					player.UpdateSprites(WIDTH, HEIGHT, 5);
 					player.DrawSprites(xOff, yOff);
@@ -204,15 +218,19 @@ int main(void)
 					done = true;
 				}
 
+				//else contunue drawing
 				player.DrawSprites(xOff, yOff);
 
+				//if the level's over & 3 has been completed, win the game!
 				if (levelOver && level == 4) {
 					al_draw_text(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "MARISA STOLE THE PRECIOUS THING!");
 					al_flip_display();
 					al_rest(5);
 					done = true;
 				}
-				
+
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH, 10, ALLEGRO_ALIGN_RIGHT, "TIME: %i", countdownTime);
+
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 			}
