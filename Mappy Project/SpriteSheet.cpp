@@ -118,7 +118,7 @@ bool Sprite::CollisionEndBlock()
 }
 bool Sprite::CollisionDieBlock()
 {
-	if (dieValue(x + frameWidth - 10, y + frameHeight / 2) || dieValue(x + frameWidth / 2, y) || dieValue(x + frameWidth / 2, y + frameHeight) || dieValue(x + 10, y + frameHeight / 2))
+	if (dieValue(x + frameWidth - 20, y + frameHeight / 2) || dieValue(x + frameWidth / 2, y) || dieValue(x + frameWidth / 2, y + frameHeight) || dieValue(x + 20, y + frameHeight / 2))
 		return true;
 	else
 		return false;

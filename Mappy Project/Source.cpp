@@ -23,7 +23,9 @@ int main(void)
 	bool render = false;
 	bool gameOver = false; //for ending game
 	bool levelOver = false; //for changing levels
-	int countdown = 60;
+	int countdown = 60; //timer coutndown
+	char name[80];
+	int level = 1; //set to level 1
 
 	//Player Variable
 	Sprite player;
@@ -83,10 +85,17 @@ int main(void)
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 
-		while (!gameOver) {
-
 			if (ev.type == ALLEGRO_EVENT_TIMER)
 			{
+				if (levelOver) {
+					countdown = 60;
+					levelOver = false;
+					level++;
+					sprintf(name, "level%i.FMP", level);
+					if (MapLoad(name, 1)) exit(0);
+					MapInitAnims();
+				}
+
 				render = true;
 				if (keys[UP])
 					player.UpdateSprites(WIDTH, HEIGHT, 3);
@@ -98,8 +107,9 @@ int main(void)
 					player.UpdateSprites(WIDTH, HEIGHT, 1);
 				else
 					player.UpdateSprites(WIDTH, HEIGHT, 2);
-				if (player.CollisionEndBlock())
-					gameOver = true;
+				if (player.CollisionEndBlock()) {
+					levelOver = true;
+				}
 				if (player.CollisionDieBlock())
 					return 0;
 				render = true;
@@ -195,7 +205,6 @@ int main(void)
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 			}
 		}
-	}
 	MapFreeMem();
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
