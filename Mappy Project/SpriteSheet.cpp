@@ -111,14 +111,14 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 
 bool Sprite::CollisionEndBlock()
 {
-	if (endValue(x + frameWidth + 1, y + frameHeight / 2))
+	if (endValue(x + frameWidth + 10, y + frameHeight / 2) || endValue(x + frameWidth / 2, y - 1) || endValue(x + frameWidth / 2, y + frameHeight + 1) || endValue(x - 1, y + frameHeight / 2))
 		return true;
 	else
 		return false;
 }
 bool Sprite::CollisionDieBlock()
 {
-	if (dieValue(x + frameWidth / 2, y + frameHeight + 5))
+	if (dieValue(x + frameWidth + 10, y + frameHeight / 2) || dieValue(x + frameWidth / 2, y - 1) || dieValue(x + frameWidth / 2, y + frameHeight + 1) || dieValue(x - 1, y + frameHeight / 2))
 		return true;
 	else
 		return false;

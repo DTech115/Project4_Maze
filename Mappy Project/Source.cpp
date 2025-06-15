@@ -49,7 +49,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if(MapLoad("level1.fmp", 1))
+	if(MapLoad("level2.fmp", 1))
 		return -5;
 	MapInitAnims();
 
