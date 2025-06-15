@@ -32,8 +32,10 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	int oldx = x;
 	int oldy = y;
 
-	//if (collided(x + frameWidth / 2, y + 5))
-
+	//stop from moving outside which crashes
+	if (y <= 1) {
+		y = 1;
+	}
 
 	if (dir == 1) { //right key
 		animationDirection = 1;
@@ -109,7 +111,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 
 bool Sprite::CollisionEndBlock()
 {
-	if (endValue(x + frameWidth/2, y + frameHeight + 5))
+	if (endValue(x + frameWidth + 1, y + frameHeight / 2))
 		return true;
 	else
 		return false;

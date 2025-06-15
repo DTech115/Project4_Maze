@@ -175,7 +175,7 @@ int main(void)
 			if (gameOver) {
 				al_draw_text(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "YOU WIN!");
 				al_flip_display();
-				al_rest(10);
+				al_rest(5);
 				done = true;
 			}
 
