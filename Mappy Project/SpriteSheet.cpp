@@ -17,7 +17,7 @@ void Sprite::InitSprites(int width, int height)
 	maxFrame = 9;
 	curFrame = 0;
 	frameCount = 0;
-	frameDelay = 6;
+	frameDelay = 5;
 	frameWidth = 127;
 	frameHeight = 128;
 	animationColumns = 8;
@@ -118,7 +118,7 @@ bool Sprite::CollisionEndBlock()
 }
 bool Sprite::CollisionDieBlock()
 {
-	if (dieValue(x + frameWidth + 10, y + frameHeight / 2) || dieValue(x + frameWidth / 2, y - 1) || dieValue(x + frameWidth / 2, y + frameHeight + 1) || dieValue(x - 1, y + frameHeight / 2))
+	if (dieValue(x + frameWidth - 10, y + frameHeight / 2) || dieValue(x + frameWidth / 2, y) || dieValue(x + frameWidth / 2, y + frameHeight) || dieValue(x + 10, y + frameHeight / 2))
 		return true;
 	else
 		return false;
