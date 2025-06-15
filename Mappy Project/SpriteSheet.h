@@ -19,7 +19,6 @@ public:
 	float getY() {return y;}
 	int getWidth() {return frameWidth;}
 	int getHeight() {return frameHeight;}
-	int jumping(int jump, const int JUMPIT);
 	bool CollisionEndBlock();
 private:
 	float x;

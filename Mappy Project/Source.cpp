@@ -22,10 +22,6 @@ int main(void)
 	bool gameOver = false; //for ending game
 	//Player Variable
 	Sprite player;
-	const int JUMPIT=1600;
-	int jump = JUMPIT;
-
-
 
 	//allegro variable
 	ALLEGRO_DISPLAY *display = NULL;
@@ -83,9 +79,9 @@ int main(void)
 		{
 			render = true;
 			if(keys[UP])
-				;
+				player.UpdateSprites(WIDTH, HEIGHT, 3);
 			else if(keys[DOWN])
-				;
+				player.UpdateSprites(WIDTH, HEIGHT, 4);
 			else if(keys[LEFT])
 				player.UpdateSprites(WIDTH,HEIGHT,0);
 			else if(keys[RIGHT])
@@ -122,8 +118,7 @@ int main(void)
 				break;
 			case ALLEGRO_KEY_SPACE:
 				keys[SPACE] = true;
-				jump=30;
-
+				break;
 			}
 		}
 		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
@@ -175,7 +170,6 @@ int main(void)
 
 			//draw foreground tiles
 			MapDrawFG(xOff,yOff, 0, 0, WIDTH, HEIGHT, 0);
-			jump=player.jumping(jump,JUMPIT);
 			player.DrawSprites(xOff, yOff);
 
 			if (gameOver) {
