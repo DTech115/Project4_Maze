@@ -53,7 +53,7 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonDialog>true</Allegro_AddonDialog>
     <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
-    <TargetName>MazeFun</TargetName>
+    <TargetName>Touhou 30.5 ~ Scroll of Endless Sorrows and Star-Streaked Theft Shattering Silence of the Scarlet Study Hall</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

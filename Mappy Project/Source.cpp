@@ -65,7 +65,6 @@ int main(void)
 	countdown = al_create_timer(1.0); //created countdown timer
 	
 
-
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(countdown));
