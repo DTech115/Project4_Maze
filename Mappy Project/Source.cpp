@@ -12,8 +12,8 @@ int collided(int x, int y);  //Tile Collision
 bool endValue( int x, int y ); //End Block with the User Value = 8
 int main(void)
 {
-	const int WIDTH = 900;
-	const int HEIGHT = 480;
+	const int WIDTH = 1400;
+	const int HEIGHT = 1000;
 	bool keys[] = {false, false, false, false, false};
 	enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
 	//variables
@@ -52,7 +52,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if(MapLoad("sample.fmp", 1))
+	if(MapLoad("level1.fmp", 1))
 		return -5;
 	MapInitAnims();
 

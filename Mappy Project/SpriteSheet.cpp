@@ -11,15 +11,15 @@ Sprite::~Sprite()
 void Sprite::InitSprites(int width, int height)
 {
 	x = 80;
-	y = -10;
+	y = 20;
 
 
-	maxFrame = 12;
+	maxFrame = 9;
 	curFrame = 0;
 	frameCount = 0;
 	frameDelay = 6;
-	frameWidth = 50;
-	frameHeight = 64;
+	frameWidth = 127;
+	frameHeight = 128;
 	animationColumns = 8;
 	animationDirection = 1;
 
@@ -33,12 +33,12 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	int oldy = y;
 
 
-	int topTile = y / 32;
+	/*int topTile = y / 32;
 
 	if (collided(x, y) && topTile == 0) {
 		x = oldx;
 		y = oldy + 10;
-	}
+	}*/
 
 	if (dir == 1) { //right key
 		animationDirection = 1;
@@ -93,14 +93,20 @@ bool Sprite::CollisionEndBlock()
 void Sprite::DrawSprites(int xoffset, int yoffset)
 {
 	int fx = (curFrame % animationColumns) * frameWidth;
-	int fy = (curFrame / animationColumns) * frameHeight;
+	int fy = 0;
 
-	if (animationDirection==1){
-		al_draw_bitmap_region(image, fx, fy, frameWidth,frameHeight, x-xoffset, y-yoffset, 0);
-	}else if (animationDirection == 0 ){
-		al_draw_bitmap_region(image, fx, fy, frameWidth,frameHeight, x-xoffset, y-yoffset, ALLEGRO_FLIP_HORIZONTAL);
-	}else if (animationDirection == 2 ){
-		al_draw_bitmap_region(image,0,0,frameWidth,frameHeight,  x-xoffset, y-yoffset, 0);
+	if (animationDirection == 2) {
+		fx = 0;
+		fy = 0;
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+	}
+	else if (animationDirection == 0) {
+		fy = frameHeight;
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, ALLEGRO_FLIP_HORIZONTAL);
+	}
+	else if (animationDirection == 1) {
+		fy = frameHeight;
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 }
 
