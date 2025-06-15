@@ -19,11 +19,11 @@ int main(void)
 	enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
 	
 	//variables
-	bool done = false;
+	bool done = false; //exit gameloop
 	bool render = false;
 	bool gameOver = false; //for ending game
 	bool levelOver = false; //for changing levels
-	int countdown = 60; //timer coutndown
+	int countdownTime = 60; //timer seconds
 	char name[80];
 	int level = 1; //set to level 1
 
@@ -34,6 +34,7 @@ int main(void)
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer;
+	ALLEGRO_TIMER *countdown;
 
 	//program init
 	if(!al_init())										//initialize Allegro
@@ -69,7 +70,7 @@ int main(void)
 
 	al_start_timer(timer);
 
-	ALLEGRO_FONT* font = al_load_font("minecraft_font.ttf", 76, 0);
+	ALLEGRO_FONT* font = al_load_font("minecraft_font.ttf", 64, 0);
 
 	//draw the background tiles
 	MapDrawBG(xOff,yOff, 0, 0, WIDTH-1, HEIGHT-1);
@@ -80,10 +81,10 @@ int main(void)
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
 
-	while(!done)
+	while (!done)
 	{
-		ALLEGRO_EVENT ev;
-		al_wait_for_event(event_queue, &ev);
+			ALLEGRO_EVENT ev;
+			al_wait_for_event(event_queue, &ev);
 
 			if (ev.type == ALLEGRO_EVENT_TIMER)
 			{
@@ -92,7 +93,7 @@ int main(void)
 					levelOver = false;
 					level++;
 					sprintf(name, "level%i.FMP", level);
-					if (MapLoad(name, 1)) exit(0);
+					MapLoad(name, 1);
 					MapInitAnims();
 				}
 
@@ -111,7 +112,8 @@ int main(void)
 					levelOver = true;
 				}
 				if (player.CollisionDieBlock())
-					return 0;
+					gameOver = true;
+
 				render = true;
 
 			}
@@ -192,19 +194,29 @@ int main(void)
 
 				//draw foreground tiles
 				MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
-				player.DrawSprites(xOff, yOff);
 
 				if (gameOver) {
-					al_draw_text(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "YOU WIN!");
+					player.UpdateSprites(WIDTH, HEIGHT, 5);
+					player.DrawSprites(xOff, yOff);
+					al_draw_text(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!");
 					al_flip_display();
 					al_rest(5);
 					done = true;
 				}
 
+				player.DrawSprites(xOff, yOff);
+
+				if (levelOver && level == 4) {
+					al_draw_text(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "MARISA STOLE THE PRECIOUS THING!");
+					al_flip_display();
+					al_rest(5);
+					done = true;
+				}
+				
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 			}
-		}
+	}
 	MapFreeMem();
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object

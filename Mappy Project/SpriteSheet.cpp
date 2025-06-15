@@ -149,7 +149,7 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 		ALLEGRO_BITMAP* frame = al_create_sub_bitmap(image, fx, fy, frameWidth, frameHeight);
 
 		//rotate that sprite up
-		al_draw_rotated_bitmap(frame,frameWidth / 2.0, frameHeight / 2.0, x - xoffset + frameWidth / 2.0, y - yoffset + frameHeight / 2.0, ALLEGRO_PI / - 2, 0);
+		al_draw_rotated_bitmap(frame, frameWidth / 2.0, frameHeight / 2.0, x - xoffset + frameWidth / 2.0, y - yoffset + frameHeight / 2.0, ALLEGRO_PI / -2, 0);
 		al_destroy_bitmap(frame);
 	}
 	else if (animationDirection == 4) {	//move down
@@ -160,6 +160,11 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 
 		//rotate that sprite down
 		al_draw_rotated_bitmap(frame, frameWidth / 2.0, frameHeight / 2.0, x - xoffset + frameWidth / 2.0, y - yoffset + frameHeight / 2.0, ALLEGRO_PI / 2, 0);
+	}
+	else if (animationDirection == 5) {
+		fx = 1 * frameWidth;
+		fy = 0 * frameHeight;
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 
 }
