@@ -116,6 +116,13 @@ bool Sprite::CollisionEndBlock()
 	else
 		return false;
 }
+bool Sprite::CollisionDieBlock()
+{
+	if (dieValue(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
 
 void Sprite::DrawSprites(int xoffset, int yoffset)
 {

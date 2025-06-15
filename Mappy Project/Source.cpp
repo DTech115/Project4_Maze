@@ -10,6 +10,7 @@ using namespace std;
 
 int collided(int x, int y);  //Tile Collision
 bool endValue( int x, int y ); //End Block with the User Value = 8
+bool dieValue(int x, int y); //end game with user = 5
 int main(void)
 {
 	const int WIDTH = 1400;
@@ -90,6 +91,8 @@ int main(void)
 				player.UpdateSprites(WIDTH,HEIGHT,2);
 			if (player.CollisionEndBlock())
 				gameOver = true;
+			if (player.CollisionDieBlock())
+				return 0;
 			render = true;
 
 		}
@@ -210,5 +213,18 @@ bool endValue( int x, int y )
 	{
 		return true;
 	}else
+		return false;
+}
+bool dieValue(int x, int y)
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 5)
+	{
+		return true;
+	}
+	else
 		return false;
 }
